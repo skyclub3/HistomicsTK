@@ -1,0 +1,305 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Tips of scalable annotation rendering for developers &mdash; HistomicsTK 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="histomicstk.saliency" href="histomicstk.saliency.html" />
+    <link rel="prev" title="Polygon merger (overview)" href="histomicstk.annotations_and_masks.polygon_merger.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> HistomicsTK
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="api-docs.html">API Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="histomicstk.html">histomicstk</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="histomicstk.utils.html">utils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="histomicstk.preprocessing.html">preprocessing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="histomicstk.filters.html">filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="histomicstk.segmentation.html">segmentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="histomicstk.features.html">features</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="histomicstk.annotations_and_masks.html">annotations and masks</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="histomicstk.annotations_and_masks.annotations_to_masks_handler.html">Annotations to masks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="histomicstk.annotations_and_masks.masks_to_annotations_handler.html">Masks to annotations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="histomicstk.annotations_and_masks.annotation_and_mask_utils.html">Annotation and mask utilities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="histomicstk.annotations_and_masks.polygon_merger.html">Polygon merger (overview)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="histomicstk.annotations_and_masks.polygon_merger.html#polygon-merger-version-1-from-tiled-masks">Polygon merger (version 1 - from tiled masks)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="histomicstk.annotations_and_masks.polygon_merger.html#polygon-merger-version-2-general">Polygon merger (version 2- general)</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Tips for scalable annotation rendering for developers</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="histomicstk.saliency.html">saliency (tissue/cellularity detection)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="histomicstk.workflows.html">workflows</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">HistomicsTK</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="api-docs.html">API Documentation</a> &raquo;</li>
+        
+          <li><a href="histomicstk.html">histomicstk</a> &raquo;</li>
+        
+          <li><a href="histomicstk.annotations_and_masks.html">histomicstk.annotations_and_masks</a> &raquo;</li>
+        
+      <li>Tips of scalable annotation rendering for developers</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/histomicstk.annotations_and_masks.tips_for_scalable_annotation_rendering_for_developers.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="tips-of-scalable-annotation-rendering-for-developers">
+<h1>Tips of scalable annotation rendering for developers<a class="headerlink" href="#tips-of-scalable-annotation-rendering-for-developers" title="Permalink to this headline">¶</a></h1>
+<p><strong>1. Some definitions and FAQs</strong></p>
+<p><em>- What is an Annotation?</em></p>
+<p>An annotation, aka annotation “document”, is the single unit containing multiple elements (points/rectangles/lines/polygons/etc). When communicating with the HistomicsTK server using the <code class="docutils literal notranslate"><span class="pre">annotation</span></code> endpoint of the API, this is the indivisible unit used for sending and receiving data in a JSON-like format. The distinction between annotation documents, groups, and elements, is a bit suboptimal from a user standpoint, but is a useful abstraction for efficiency for developers (see discussion in #625 , #636). So even future changes to this model are likely to just impact display (i.e. abstract things away from the UI) but not the underlying principles.</p>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/22067552/67130235-abd60e00-f1ce-11e9-82c7-50aeeb978c83.png"><img alt="image" src="https://user-images.githubusercontent.com/22067552/67130235-abd60e00-f1ce-11e9-82c7-50aeeb978c83.png" /></a>
+<p><em>- What is an Element?</em></p>
+<p>An element, aka annotation “element”. This is a single points/rectangles/lines/polygons/etc. Elements belonging to the same “document” are stored as a list as part of the “Elements” attribute of the document.</p>
+<p><em>- Is there a limit to the number of loaded annotation documents?</em></p>
+<p>Yes! To avoid crashing the browser, there is a maximum number of annotation documents that are sampled for display. This number is currently set to 5,000, see #670 . This means that if your algorithm has saved more than 5,000 annotation documents, the end user will only be able to see 5,000 documents when they load the slide.</p>
+<p><em>- Is there a limit to the number of loaded annotation elements?</em></p>
+<p>Yes! If the number of elements in the documents is more than 2,000,000 then the smallest elements (as determined by bounding box diagonal) are displayed as circles, see #676 and #731 . Of course, if you have more than 5,000 documents in your slide then by definition some elements will be missing since only 5,000 documents are displayed.</p>
+<p><strong>2. Some efficiency considerations</strong> - (Also see discussion at #636)</p>
+<p><em>- Which elements are more efficient to render?</em></p>
+<p>The basic types of elements include: point, rectangle, polygon, and line. The most efficient elements to render are, in order of increasing render efficiency:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Filled</span> <span class="n">polygon</span> <span class="o">-&gt;</span> <span class="n">Unfilled</span> <span class="n">polygon</span> <span class="p">(</span><span class="n">no</span> <span class="n">opacity</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rectangle</span> <span class="o">-&gt;</span> <span class="n">Line</span> <span class="o">-&gt;</span> <span class="n">Point</span>
+</pre></div>
+</div>
+<p>Obviously, the more vertices of the polygon the less is the rendering efficiency.</p>
+<p><em>- What are the least performant operations for the end-user?</em></p>
+<ol class="arabic simple">
+<li><p>Rendering thousands of filled polygons with numerous vertices (#592 ).</p></li>
+<li><p>Using the transparency slider - this re-renders the polygons, so does not perform well when there are thousands of filled polygons, see #672</p></li>
+<li><p>Right clicking and editing an element when there are thousands of RENDERED elements (see #533 ). For example, say the slide is associated with 500 annotation documents, each of which contains 2,000 annotation elements. If the user clicks the ‘eye’ icon to render ALL 500 x 2000 = 100,000 elements, then right clicking on any single element to edit will be very slow. If the user just chooses to render a couple of documents (i.e. only 1,000 elements) at a time, then there is no performance issue.</p></li>
+</ol>
+<p><strong>3. Long story short, what should I do?</strong></p>
+<p><em>- “Spread out” your annotation elements over many annotation documents</em></p>
+<p>Of course, keeping in mind that you do not exceed the maximum limit of 5,000 documents. This makes sure the server sends and receives ‘bite-sized’ (in a non-computer-science sense) packets of data, which is good for everyone. Here’s why:</p>
+<ol class="arabic simple">
+<li><p>It is good for pushing data using the <code class="docutils literal notranslate"><span class="pre">POST</span></code> or editing data using the <code class="docutils literal notranslate"><span class="pre">PUT</span></code> endpoints using the API without getting a request time out.</p></li>
+<li><p>It makes sure the user can edit the individual elements without problems. Note that right clicking an editing an element using the UI uses the <code class="docutils literal notranslate"><span class="pre">PUT</span></code> endpoint to edit the <code class="docutils literal notranslate"><span class="pre">elements</span></code> attribute of the annotation document to which the to-be-edited element belongs. So even if the user wants to edit one single annotation element, the client sends a <code class="docutils literal notranslate"><span class="pre">PUT</span></code> request containing the entire new, edited annotation document. Is this optimal behavior? It could probably be improved, but for now, keep this in mind. (Also see discussion in #719).</p></li>
+<li><p>It allows the user to display groups of elements at a time if the user really desires highly performant rendering, see #592 .</p></li>
+</ol>
+<p><em>- Consider which elements to group together into the same document</em></p>
+<p>This depends on the use case. For example, you may decide to group all elements from the same region-of-interest (or geographic location) into the same document so that the user can view all annotations in the same locality with one click on the “eye” icon. If there is no natural “region of interest” in your project and you just have tens of thousands of objects spread throughout the slide, consider grouping them by geographic proximity.</p>
+<p>Alternatively, you may decide to have elements of the same group (eg tumor) to be in the same document. This relates to #698 and #592  . Again, even if you elect to use this option, make sure to spread things over many documents if possible.</p>
+<p><em>- Minimize number of filled polygons</em></p>
+<p>This goes without saying. Any polygon fill is rendered on the GPU and is re-rendered with the interactive mode, transparency slider, right click, multi-select, lasso select, etc.</p>
+<p><em>- Minimize vertices per polygon</em></p>
+<p>If your polygons are displaying algorithmic outputs, and they were originally part of a mask at, say. 40x magnification, consider resizing the source mask to a smaller magnification (say, 15x) before extracting the polygonal coordinates. If you don’t expect the user to need a level of detail beyond 15x, only use enough vertices to be accurate at 15x.</p>
+<p><em>- Make sure the end-user knows about efficiency bottlenecks</em></p>
+<p>If your end user (eg pathology resident) needs to edit elements in a slide with hundreds of thousands of elements, make sure to let them know which things to do and not to do.</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="histomicstk.saliency.html" class="btn btn-neutral float-right" title="histomicstk.saliency" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="histomicstk.annotations_and_masks.polygon_merger.html" class="btn btn-neutral float-left" title="Polygon merger (overview)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Kitware, Inc.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

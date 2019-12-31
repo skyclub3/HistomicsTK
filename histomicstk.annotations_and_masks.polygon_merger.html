@@ -1,0 +1,455 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Polygon merger (overview) &mdash; HistomicsTK 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Tips of scalable annotation rendering for developers" href="histomicstk.annotations_and_masks.tips_for_scalable_annotation_rendering_for_developers.html" />
+    <link rel="prev" title="histomicstk.annotations_and_masks.annotation_and_mask_utils" href="histomicstk.annotations_and_masks.annotation_and_mask_utils.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> HistomicsTK
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="api-docs.html">API Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="histomicstk.html">histomicstk</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="histomicstk.utils.html">utils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="histomicstk.preprocessing.html">preprocessing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="histomicstk.filters.html">filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="histomicstk.segmentation.html">segmentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="histomicstk.features.html">features</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="histomicstk.annotations_and_masks.html">annotations and masks</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="histomicstk.annotations_and_masks.annotations_to_masks_handler.html">Annotations to masks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="histomicstk.annotations_and_masks.masks_to_annotations_handler.html">Masks to annotations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="histomicstk.annotations_and_masks.annotation_and_mask_utils.html">Annotation and mask utilities</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Polygon merger (overview)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#polygon-merger-version-1-from-tiled-masks">Polygon merger (version 1 - from tiled masks)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#polygon-merger-version-2-general">Polygon merger (version 2- general)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="histomicstk.annotations_and_masks.tips_for_scalable_annotation_rendering_for_developers.html">Tips for scalable annotation rendering for developers</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="histomicstk.saliency.html">saliency (tissue/cellularity detection)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="histomicstk.workflows.html">workflows</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">HistomicsTK</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="api-docs.html">API Documentation</a> &raquo;</li>
+        
+          <li><a href="histomicstk.html">histomicstk</a> &raquo;</li>
+        
+          <li><a href="histomicstk.annotations_and_masks.html">histomicstk.annotations_and_masks</a> &raquo;</li>
+        
+      <li>Polygon merger (overview)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/histomicstk.annotations_and_masks.polygon_merger.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="polygon-merger-overview">
+<h1>Polygon merger (overview)<a class="headerlink" href="#polygon-merger-overview" title="Permalink to this headline">¶</a></h1>
+<p>There are two versions, depending on the user’s requirements: <code class="docutils literal notranslate"><span class="pre">polygon_merger</span></code> and <code class="docutils literal notranslate"><span class="pre">polygon_merger_v2</span></code>. <code class="docutils literal notranslate"><span class="pre">polygon_merger</span></code> deals with the situation when you have tiled masks and want to fuse the contours from tiled edges. <code class="docutils literal notranslate"><span class="pre">polygon_merger_v2</span></code> is a more general version that does not need masks. In brief, here is when it is appropriate to use either workflow. If you have:</p>
+<ul class="simple">
+<li><p><strong>Tiled masks from segmentation algorithm</strong>: Use <code class="docutils literal notranslate"><span class="pre">polygon_merger.py</span></code>. That is likely going to be <strong>faster</strong> than <code class="docutils literal notranslate"><span class="pre">polygon_merger_v2.py</span></code>, since it takes advantage of the known spatial adjacency between segmentation masks and the available functionality in <code class="docutils literal notranslate"><span class="pre">masts_to_annotations_handler.py</span></code> to cut down the search space to a much smaller set of annotations (only those that touch the mak edge). <code class="docutils literal notranslate"><span class="pre">polygon_merger_test.py</span></code> runs in ~20 seconds whereas <code class="docutils literal notranslate"><span class="pre">polygon_merger_v2_test.py</span></code> runs in ~25 seconds (i.e. 20% slower, but it’s not a 100% fair comparison).</p></li>
+<li><p><strong>Contours (coordinates) from whole slide image</strong>: Use <code class="docutils literal notranslate"><span class="pre">polygon_merger_v2.py</span></code> (as shown in this notebook). This is <strong>more general</strong> and does not require having masks. It is still quite fast since it relies on R-trees to cut down the search space.</p></li>
+</ul>
+<p>Details on each method and use case are provided below.</p>
+<p>This extends on some of the workflows described in Amgad et al, 2019:</p>
+<p><em>Mohamed Amgad, Habiba Elfandy, Hagar Hussein, …, Jonathan Beezley, Deepak R Chittajallu, David Manthey, David A Gutman, Lee A D Cooper, Structured crowdsourcing enables convolutional segmentation of histology images, Bioinformatics, 2019, btz083</em></p>
+<p>This slide used as a test example:</p>
+<p><a class="reference external" href="http://candygram.neurology.emory.edu:8080/histomicstk#?image=5d5d6910bd4404c6b1f3d893&amp;bounds=41996%2C43277%2C49947%2C46942%2C0">TCGA-A2-A0YE-01Z-00-DX1</a></p>
+<p><strong>This is what the result looks like:</strong></p>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/22067552/63630235-866dbf00-c5e6-11e9-94d4-02d736e06f15.png"><img alt="image" src="https://user-images.githubusercontent.com/22067552/63630235-866dbf00-c5e6-11e9-94d4-02d736e06f15.png" /></a>
+</div>
+<div class="section" id="polygon-merger-version-1-from-tiled-masks">
+<h1>Polygon merger (version 1 - from tiled masks)<a class="headerlink" href="#polygon-merger-version-1-from-tiled-masks" title="Permalink to this headline">¶</a></h1>
+<p><strong>Overview:</strong></p>
+<p>This includes functionality to merge polygons from adjacent tiles (regions of interest, ROI) that form a tiled array. This is particularly useful when working with algorithmic segmentation output, which typically produces segmentation masks that are much smaller in size (say, 512x512 pixels) relative to the tissue area. This means that at the edge of each tile the segmentation contour discontinues sharply. This is very problematic if you need to analyze histological structures that are very large, oftentimes thousands of pixels perimeter-wise.</p>
+<p><strong>Implementation summary</strong></p>
+<p>The key requirement is that that the masks (ROIs) are rectangular and unrotated, everything else is taken care of. This algorithm fuses polygon clusters in coordinate (not mask) space, which means it can merge almost-arbitrarily large structures without memory issues. The algorithm, in brief, works as follows:</p>
+<ul class="simple">
+<li><p>Extract contours from the given masks using functionality from the <code class="docutils literal notranslate"><span class="pre">masks_to_annotations_handler.py</span></code>, making sure to correctly account for contour offset, so that all coordinates are relative to whole-slide image.</p></li>
+<li><p>Identify contours that touch the edge of each ROI and which edges they touch.</p></li>
+<li><p>Identify shared edges between ROIs (using 4-connectivity).</p></li>
+<li><p>For each shared edge, find contours that are within the vicinity of each other (using bounding box location). If they are, then convert to shapely polygon and check if they actually are within a threshold distance of each other. If so, consider them a “pair” for merger.</p></li>
+<li><p>Hierarchically cluster pairs of polygons such that all contiguous polygons are to be merged.</p></li>
+<li><p>Get the union of each polygon “cluster” elements. The polygons are first dilated a bit to make sure any small gaps are covered, then they are merged and eroded.</p></li>
+</ul>
+<p>This initial set of “vetting” steps ensures that the complexity is <code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">O(n^2)</span></code>. This is very important since time complexity plays a key role as whole slide images may contain tens of thousands of objects.</p>
+<p><strong>Where to look?</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">|</span><span class="n">_</span> <span class="n">histomicstk</span><span class="o">/</span>
+<span class="o">|</span>   <span class="o">|</span><span class="n">_annotations_and_masks</span><span class="o">/</span>
+<span class="o">|</span>      <span class="o">|</span><span class="n">_polygon_merger</span><span class="o">.</span><span class="n">py</span>
+<span class="o">|</span>      <span class="o">|</span><span class="n">_tests</span><span class="o">/</span>
+<span class="o">|</span>         <span class="o">|</span><span class="n">_</span> <span class="n">polygon_merger_test</span><span class="o">.</span><span class="n">py</span>
+<span class="o">|</span>         <span class="o">|</span><span class="n">_test_files</span><span class="o">/</span>
+<span class="o">|</span>            <span class="o">|</span><span class="n">_polygon_merger_roi_masks</span><span class="o">/</span>
+<span class="o">|</span><span class="n">_</span> <span class="n">docs</span><span class="o">/</span>
+    <span class="o">|</span><span class="n">_examples</span><span class="o">/</span>
+       <span class="o">|</span><span class="n">_polygon_merger</span><span class="o">.</span><span class="n">ipynb</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<span class="target" id="module-histomicstk.annotations_and_masks.polygon_merger"></span><p>Created on Wed Aug 21 16:25:06 2019.</p>
+<p>&#64;author: tageldim</p>
+<dl class="class">
+<dt id="histomicstk.annotations_and_masks.polygon_merger.Polygon_merger">
+<em class="property">class </em><code class="sig-prename descclassname">histomicstk.annotations_and_masks.polygon_merger.</code><code class="sig-name descname">Polygon_merger</code><span class="sig-paren">(</span><em class="sig-param">maskpaths</em>, <em class="sig-param">GTCodes_df</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/histomicstk/annotations_and_masks/polygon_merger.html#Polygon_merger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#histomicstk.annotations_and_masks.polygon_merger.Polygon_merger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">histomicstk.utils.general_utils.Base_HTK_Class</span></code></p>
+<p>Methods to merge polygons in tiled masks.</p>
+<dl class="method">
+<dt id="histomicstk.annotations_and_masks.polygon_merger.Polygon_merger.get_concatenated_contours">
+<code class="sig-name descname">get_concatenated_contours</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/histomicstk/annotations_and_masks/polygon_merger.html#Polygon_merger.get_concatenated_contours"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#histomicstk.annotations_and_masks.polygon_merger.Polygon_merger.get_concatenated_contours" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get concatenated contours and overall bounding box.</p>
+<p>Returns:
+- pandas DataFrame: has the same structure as output from
+get_contours_from_mask().</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="histomicstk.annotations_and_masks.polygon_merger.Polygon_merger.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/histomicstk/annotations_and_masks/polygon_merger.html#Polygon_merger.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#histomicstk.annotations_and_masks.polygon_merger.Polygon_merger.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run full pipeline to get merged contours.</p>
+<p>Returns:
+- pandas DataFrame: has the same structure as output from
+get_contours_from_mask().</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="histomicstk.annotations_and_masks.polygon_merger.Polygon_merger.set_contours_from_all_masks">
+<code class="sig-name descname">set_contours_from_all_masks</code><span class="sig-paren">(</span><em class="sig-param">monitorPrefix=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/histomicstk/annotations_and_masks/polygon_merger.html#Polygon_merger.set_contours_from_all_masks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#histomicstk.annotations_and_masks.polygon_merger.Polygon_merger.set_contours_from_all_masks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get contours_df from all masks.</p>
+<p>This is a wrapper around get_contours_from_mask(), with the added
+functionality of separating out contorus at roi edge from those that
+are not.</p>
+<p>Sets:
+- self.ordinary_contours: dict: indexed by maskname, each entry
+is a contours dataframe
+- self.edge_contours: dict: indexed by maskname, each entry is
+a contours dataframe
+- self.merged_contours: pandas DataFrame: single dataframe to
+save all merged contours</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="histomicstk.annotations_and_masks.polygon_merger.Polygon_merger.set_merged_contours">
+<code class="sig-name descname">set_merged_contours</code><span class="sig-paren">(</span><em class="sig-param">monitorPrefix=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/histomicstk/annotations_and_masks/polygon_merger.html#Polygon_merger.set_merged_contours"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#histomicstk.annotations_and_masks.polygon_merger.Polygon_merger.set_merged_contours" title="Permalink to this definition">¶</a></dt>
+<dd><p>Go through each group and merge contours.</p>
+<p>Sets:
+- self.merged_contours: pandas DataFrame: has the same structure
+as output from get_contours_from_mask().</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="histomicstk.annotations_and_masks.polygon_merger.Polygon_merger.set_roi_bboxes">
+<code class="sig-name descname">set_roi_bboxes</code><span class="sig-paren">(</span><em class="sig-param">roi_offsets=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/histomicstk/annotations_and_masks/polygon_merger.html#Polygon_merger.set_roi_bboxes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#histomicstk.annotations_and_masks.polygon_merger.Polygon_merger.set_roi_bboxes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get dictionary of roi bounding boxes.</p>
+<p>Arguments:
+- roi_offsets: dict (default, None): dict indexed by maskname,
+each entry is a dict with keys top and left each is an integer.
+If None, then the x and y offset is inferred from mask name.</p>
+<p>Sets:
+- self.roiinfos: dict: dict indexed by maskname, each entry is a
+dict with keys top, left, bottom, right, all of which are integers.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="histomicstk.annotations_and_masks.polygon_merger.Polygon_merger.set_shared_roi_edges">
+<code class="sig-name descname">set_shared_roi_edges</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/histomicstk/annotations_and_masks/polygon_merger.html#Polygon_merger.set_shared_roi_edges"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#histomicstk.annotations_and_masks.polygon_merger.Polygon_merger.set_shared_roi_edges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get shared edges between rois in same slide (Internal).</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="polygon-merger-version-2-general">
+<h1>Polygon merger (version 2- general)<a class="headerlink" href="#polygon-merger-version-2-general" title="Permalink to this headline">¶</a></h1>
+<p><strong>Overview:</strong></p>
+<p>This includes functionality to merge polygons from a whole-slide image using an R-tree spatial querying database. This module is particularly useful when working with algorithmic segmentation outputs that are small relative to the tissue area. If you need to analyze histological structures that are very large, oftentimes thousands of pixels perimeter-wise, this will be a useful functionality.</p>
+<p><strong>Implementation summary</strong></p>
+<p>This algorithm fuses polygon clusters in coordinate (not mask) space, which means is can merge almost-arbitrarily large structures without memory issues. The algorithm, in brief, works as follows:</p>
+<ul class="simple">
+<li><p>Identify contours that that have the same label (eg. tumor)</p></li>
+<li><p>Add the bounding boxes from these contours to an <a class="reference external" href="https://en.wikipedia.org/wiki/R-tree">R-tree</a>. The R-tree implementation used here is modified from <a class="reference external" href="https://code.google.com/archive/p/pyrtree/">here</a>, and uses k-means clustering to balance the tree.</p></li>
+<li><p>Starting from the bottom of the tree, merge all polygons from leafs that belong to the same nodes.</p></li>
+<li><p>Move one level up the hierarchy, each time incorporated merged polygons from nodes that share a common parent. Do this until you get one merged polygon at the root node. The polygons are first dilated a bit to make sure any small gaps are covered, then they are merged and eroded. Note that <code class="docutils literal notranslate"><span class="pre">shapely</span></code> allows us to simply “combine” polygons into a “multi-polygon” object, which means we do not need to check if the polygons actually are within merger threshold. Instead, all polygons hierarchically combined until we arrive at a single “multi-polygon” object at the root node.</p></li>
+<li><p>Save the coordinates from each polygon on the multi-polygon object in a new pandas DataFrame.</p></li>
+</ul>
+<p>This process ensures that the number of comparisons is <code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">n^2</span></code>. This is very important since algorithm complexity plays a key role as whole slide images may contain tens of thousands of objects.</p>
+<p><strong>Where to look?</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">|</span><span class="n">_</span> <span class="n">histomicstk</span><span class="o">/</span>
+<span class="o">|</span>   <span class="o">|</span><span class="n">_annotations_and_masks</span><span class="o">/</span>
+<span class="o">|</span>      <span class="o">|</span><span class="n">_polygon_merger_v2</span><span class="o">.</span><span class="n">py</span>
+<span class="o">|</span>      <span class="o">|</span><span class="n">_tests</span><span class="o">/</span>
+<span class="o">|</span>         <span class="o">|</span><span class="n">_</span> <span class="n">polygon_merger_v2_test</span><span class="o">.</span><span class="n">py</span>
+<span class="o">|</span><span class="n">_</span> <span class="n">docs</span><span class="o">/</span>
+    <span class="o">|</span><span class="n">_examples</span><span class="o">/</span>
+       <span class="o">|</span><span class="n">_polygon_merger_v2</span><span class="o">.</span><span class="n">ipynb</span>
+</pre></div>
+</div>
+<span class="target" id="module-histomicstk.annotations_and_masks.polygon_merger_v2"></span><p>Created on Sat Aug 24 16:01:26 2019.</p>
+<p>&#64;author: tageldim</p>
+<dl class="class">
+<dt id="histomicstk.annotations_and_masks.polygon_merger_v2.Polygon_merger_v2">
+<em class="property">class </em><code class="sig-prename descclassname">histomicstk.annotations_and_masks.polygon_merger_v2.</code><code class="sig-name descname">Polygon_merger_v2</code><span class="sig-paren">(</span><em class="sig-param">contours_df</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/histomicstk/annotations_and_masks/polygon_merger_v2.html#Polygon_merger_v2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#histomicstk.annotations_and_masks.polygon_merger_v2.Polygon_merger_v2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">histomicstk.utils.general_utils.Base_HTK_Class</span></code></p>
+<p>Methods to merge contiguous polygons from whole-slide image.</p>
+<dl class="method">
+<dt id="histomicstk.annotations_and_masks.polygon_merger_v2.Polygon_merger_v2.create_rtree">
+<code class="sig-name descname">create_rtree</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/histomicstk/annotations_and_masks/polygon_merger_v2.html#Polygon_merger_v2.create_rtree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#histomicstk.annotations_and_masks.polygon_merger_v2.Polygon_merger_v2.create_rtree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add contour bounding boxes to R-tree.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="histomicstk.annotations_and_masks.polygon_merger_v2.Polygon_merger_v2.get_merged_multipolygon">
+<code class="sig-name descname">get_merged_multipolygon</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/histomicstk/annotations_and_masks/polygon_merger_v2.html#Polygon_merger_v2.get_merged_multipolygon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#histomicstk.annotations_and_masks.polygon_merger_v2.Polygon_merger_v2.get_merged_multipolygon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get final merged shapely multipolygon by hierarchical merger.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="histomicstk.annotations_and_masks.polygon_merger_v2.Polygon_merger_v2.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/histomicstk/annotations_and_masks/polygon_merger_v2.html#Polygon_merger_v2.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#histomicstk.annotations_and_masks.polygon_merger_v2.Polygon_merger_v2.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run sequence for merging polygons &amp; adding contours.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="histomicstk.annotations_and_masks.polygon_merger_v2.Polygon_merger_v2.run_for_single_group">
+<code class="sig-name descname">run_for_single_group</code><span class="sig-paren">(</span><em class="sig-param">group</em>, <em class="sig-param">monitorPrefix=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/histomicstk/annotations_and_masks/polygon_merger_v2.html#Polygon_merger_v2.run_for_single_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#histomicstk.annotations_and_masks.polygon_merger_v2.Polygon_merger_v2.run_for_single_group" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run sequence for merging polygons &amp; adding contours (one group).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="histomicstk.annotations_and_masks.polygon_merger_v2.Polygon_merger_v2.set_contours_slice">
+<code class="sig-name descname">set_contours_slice</code><span class="sig-paren">(</span><em class="sig-param">group</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/histomicstk/annotations_and_masks/polygon_merger_v2.html#Polygon_merger_v2.set_contours_slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#histomicstk.annotations_and_masks.polygon_merger_v2.Polygon_merger_v2.set_contours_slice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Slice a single group from self.contours_df.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="histomicstk.annotations_and_masks.polygon_merger_v2.Polygon_merger_v2.set_hierarchy">
+<code class="sig-name descname">set_hierarchy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/histomicstk/annotations_and_masks/polygon_merger_v2.html#Polygon_merger_v2.set_hierarchy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#histomicstk.annotations_and_masks.polygon_merger_v2.Polygon_merger_v2.set_hierarchy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get hierarchy of node indices.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="histomicstk.annotations_and_masks.polygon_merger_v2.Polygon_merger_v2.set_tree_dict">
+<code class="sig-name descname">set_tree_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/histomicstk/annotations_and_masks/polygon_merger_v2.html#Polygon_merger_v2.set_tree_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#histomicstk.annotations_and_masks.polygon_merger_v2.Polygon_merger_v2.set_tree_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get tree in convenience dict format (dicts inside dicts).</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="histomicstk.annotations_and_masks.tips_for_scalable_annotation_rendering_for_developers.html" class="btn btn-neutral float-right" title="Tips of scalable annotation rendering for developers" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="histomicstk.annotations_and_masks.annotation_and_mask_utils.html" class="btn btn-neutral float-left" title="histomicstk.annotations_and_masks.annotation_and_mask_utils" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Kitware, Inc.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

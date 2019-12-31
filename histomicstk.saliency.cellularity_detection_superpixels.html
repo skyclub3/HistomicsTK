@@ -1,0 +1,435 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Cellularity Detection using superpixel classification &mdash; HistomicsTK 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="histomicstk.workflows" href="histomicstk.workflows.html" />
+    <link rel="prev" title="Cellularity Detection using thresholding" href="histomicstk.saliency.cellularity_detection_thresholding.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> HistomicsTK
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="api-docs.html">API Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="histomicstk.html">histomicstk</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="histomicstk.utils.html">utils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="histomicstk.preprocessing.html">preprocessing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="histomicstk.filters.html">filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="histomicstk.segmentation.html">segmentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="histomicstk.features.html">features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="histomicstk.annotations_and_masks.html">annotations and masks</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="histomicstk.saliency.html">saliency (tissue/cellularity detection)</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="histomicstk.saliency.tissue_detection.html">Tissue detection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="histomicstk.saliency.cellularity_detection_thresholding.html">Cellularity detection (using thresholding)</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Cellularity detection (using superpixels)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="histomicstk.workflows.html">workflows</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">HistomicsTK</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="api-docs.html">API Documentation</a> &raquo;</li>
+        
+          <li><a href="histomicstk.html">histomicstk</a> &raquo;</li>
+        
+          <li><a href="histomicstk.saliency.html">histomicstk.saliency</a> &raquo;</li>
+        
+      <li>Cellularity Detection using superpixel classification</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/histomicstk.saliency.cellularity_detection_superpixels.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="cellularity-detection-using-superpixel-classification">
+<h1>Cellularity Detection using superpixel classification<a class="headerlink" href="#cellularity-detection-using-superpixel-classification" title="Permalink to this headline">¶</a></h1>
+<p><strong>Overview:</strong></p>
+<p>Detect cellular regions in a slides by classifying superpixels.</p>
+<p>This uses Simple Linear Iterative Clustering (SLIC) to get superpixels at
+a low slide magnification to detect cellular regions. The first step of
+this pipeline detects tissue regions (i.e. individual tissue pieces)
+using the get_tissue_mask method of the histomicstk.saliency module. Then,
+each tissue piece is processed separately for accuracy and disk space
+efficiency. It is important to keep in mind that this does NOT rely on a
+tile iterator, but loads the entire tissue region (but NOT the whole slide)
+in memory and passes it on to skimage.segmentation.slic method. Not using
+a tile iterator helps keep the superpixel sizes large enough to correspond
+to tissue boundaries.</p>
+<p>Once superpixels are segmented, the image is deconvolved and features are
+extracted from the hematoxylin channel. Features include intensity and
+possibly also texture features. Then, a mixed component Gaussian mixture
+model is fit to the features, and median intensity is used to rank
+superpixel clusters by ‘cellularity’ (since we are working with the
+hematoxylin channel).</p>
+<p>Additional functionality includes contour extraction to get the final
+segmentation boundaries of cellular regions and to visualize them in DSA
+using one’s preferred colormap.</p>
+<p>These slides are used as a test examples:</p>
+<p><a class="reference external" href="http://candygram.neurology.emory.edu:8080/histomicstk#?image=5d586d76bd4404c6b1f286ae">TCGA-A2-A0YE-01Z-00-DX1</a>
+and
+<a class="reference external" href="http://candygram.neurology.emory.edu:8080/histomicstk#?image=5d817f5abd4404c6b1f744bb">TCGA-A1-A0SK-01Z-00-DX1</a></p>
+<p><strong>Here’s the result:</strong></p>
+<p>From left to right: Slide thumbnail, superpixel classifications, contiguous cellular/acellular regions</p>
+<a class="reference external image-reference" href="https://user-images.githubusercontent.com/22067552/65730355-7e92b600-e08f-11e9-918a-507f117f6d77.png"><img alt="cdetection" src="https://user-images.githubusercontent.com/22067552/65730355-7e92b600-e08f-11e9-918a-507f117f6d77.png" /></a>
+<p><strong>Where to look?</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">|</span><span class="n">_</span> <span class="n">histomicstk</span><span class="o">/</span>
+<span class="o">|</span>   <span class="o">|</span><span class="n">_saliency</span><span class="o">/</span>
+<span class="o">|</span>      <span class="o">|</span><span class="n">_cellularity_detection_superpixels</span><span class="o">.</span><span class="n">py</span>
+<span class="o">|</span>      <span class="o">|</span><span class="n">_tests</span><span class="o">/</span>
+<span class="o">|</span>         <span class="o">|</span><span class="n">_cellularity_detection_superpixels_test</span><span class="o">.</span><span class="n">py</span>
+<span class="o">|</span><span class="n">_</span> <span class="n">docs</span><span class="o">/</span>
+    <span class="o">|</span><span class="n">_examples</span><span class="o">/</span>
+       <span class="o">|</span><span class="n">_cellularity_detection_superpixels</span><span class="o">.</span><span class="n">ipynb</span>
+</pre></div>
+</div>
+<span class="target" id="module-histomicstk.saliency.cellularity_detection_superpixels"></span><p>Created on Mon Sep 23 21:17:43 2019.</p>
+<p>&#64;author: mtageld</p>
+<dl class="class">
+<dt id="histomicstk.saliency.cellularity_detection_superpixels.CD_single_tissue_piece">
+<em class="property">class </em><code class="sig-prename descclassname">histomicstk.saliency.cellularity_detection_superpixels.</code><code class="sig-name descname">CD_single_tissue_piece</code><span class="sig-paren">(</span><em class="sig-param">cd</em>, <em class="sig-param">tissue_mask</em>, <em class="sig-param">monitorPrefix=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/histomicstk/saliency/cellularity_detection_superpixels.html#CD_single_tissue_piece"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#histomicstk.saliency.cellularity_detection_superpixels.CD_single_tissue_piece" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Detect cellular regions in a single tissue piece (internal).</p>
+<dl class="method">
+<dt id="histomicstk.saliency.cellularity_detection_superpixels.CD_single_tissue_piece.assign_cellularity_scores">
+<code class="sig-name descname">assign_cellularity_scores</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/histomicstk/saliency/cellularity_detection_superpixels.html#CD_single_tissue_piece.assign_cellularity_scores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#histomicstk.saliency.cellularity_detection_superpixels.CD_single_tissue_piece.assign_cellularity_scores" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assign cellularity scores to spixel clusters.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="histomicstk.saliency.cellularity_detection_superpixels.CD_single_tissue_piece.assign_colors_to_spixel_clusters">
+<code class="sig-name descname">assign_colors_to_spixel_clusters</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/histomicstk/saliency/cellularity_detection_superpixels.html#CD_single_tissue_piece.assign_colors_to_spixel_clusters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#histomicstk.saliency.cellularity_detection_superpixels.CD_single_tissue_piece.assign_colors_to_spixel_clusters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assign RGB color string to cellularity clusters.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="histomicstk.saliency.cellularity_detection_superpixels.CD_single_tissue_piece.restrict_mask_to_single_tissue_piece">
+<code class="sig-name descname">restrict_mask_to_single_tissue_piece</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/histomicstk/saliency/cellularity_detection_superpixels.html#CD_single_tissue_piece.restrict_mask_to_single_tissue_piece"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#histomicstk.saliency.cellularity_detection_superpixels.CD_single_tissue_piece.restrict_mask_to_single_tissue_piece" title="Permalink to this definition">¶</a></dt>
+<dd><p>Only keep relevant part of slide mask.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="histomicstk.saliency.cellularity_detection_superpixels.CD_single_tissue_piece.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/histomicstk/saliency/cellularity_detection_superpixels.html#CD_single_tissue_piece.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#histomicstk.saliency.cellularity_detection_superpixels.CD_single_tissue_piece.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get cellularity and optionally visualize on DSA.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="histomicstk.saliency.cellularity_detection_superpixels.CD_single_tissue_piece.set_superpixel_assignment">
+<code class="sig-name descname">set_superpixel_assignment</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/histomicstk/saliency/cellularity_detection_superpixels.html#CD_single_tissue_piece.set_superpixel_assignment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#histomicstk.saliency.cellularity_detection_superpixels.CD_single_tissue_piece.set_superpixel_assignment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit gaussian mixture model to features and get assignment.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="histomicstk.saliency.cellularity_detection_superpixels.CD_single_tissue_piece.set_superpixel_features">
+<code class="sig-name descname">set_superpixel_features</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/histomicstk/saliency/cellularity_detection_superpixels.html#CD_single_tissue_piece.set_superpixel_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#histomicstk.saliency.cellularity_detection_superpixels.CD_single_tissue_piece.set_superpixel_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get superpixel features.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="histomicstk.saliency.cellularity_detection_superpixels.CD_single_tissue_piece.set_superpixel_mask">
+<code class="sig-name descname">set_superpixel_mask</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/histomicstk/saliency/cellularity_detection_superpixels.html#CD_single_tissue_piece.set_superpixel_mask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#histomicstk.saliency.cellularity_detection_superpixels.CD_single_tissue_piece.set_superpixel_mask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use Simple Linear Iterative Clustering (SLIC) to get superpixels.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="histomicstk.saliency.cellularity_detection_superpixels.CD_single_tissue_piece.set_tissue_rgb">
+<code class="sig-name descname">set_tissue_rgb</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/histomicstk/saliency/cellularity_detection_superpixels.html#CD_single_tissue_piece.set_tissue_rgb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#histomicstk.saliency.cellularity_detection_superpixels.CD_single_tissue_piece.set_tissue_rgb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load RGB from server for single tissue piece.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="histomicstk.saliency.cellularity_detection_superpixels.CD_single_tissue_piece.visualize_contiguous_superpixels">
+<code class="sig-name descname">visualize_contiguous_superpixels</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/histomicstk/saliency/cellularity_detection_superpixels.html#CD_single_tissue_piece.visualize_contiguous_superpixels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#histomicstk.saliency.cellularity_detection_superpixels.CD_single_tissue_piece.visualize_contiguous_superpixels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Visualize contiguous spixels, color-coded by cellularity.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="histomicstk.saliency.cellularity_detection_superpixels.CD_single_tissue_piece.visualize_individual_superpixels">
+<code class="sig-name descname">visualize_individual_superpixels</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/histomicstk/saliency/cellularity_detection_superpixels.html#CD_single_tissue_piece.visualize_individual_superpixels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#histomicstk.saliency.cellularity_detection_superpixels.CD_single_tissue_piece.visualize_individual_superpixels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Visualize individual spixels, color-coded by cellularity.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="histomicstk.saliency.cellularity_detection_superpixels.Cellularity_detector_superpixels">
+<em class="property">class </em><code class="sig-prename descclassname">histomicstk.saliency.cellularity_detection_superpixels.</code><code class="sig-name descname">Cellularity_detector_superpixels</code><span class="sig-paren">(</span><em class="sig-param">gc</em>, <em class="sig-param">slide_id</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/histomicstk/saliency/cellularity_detection_superpixels.html#Cellularity_detector_superpixels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#histomicstk.saliency.cellularity_detection_superpixels.Cellularity_detector_superpixels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">histomicstk.utils.general_utils.Base_HTK_Class</span></code></p>
+<p>Detect cellular regions in a slides by classifying superpixels.</p>
+<p>This uses Simple Linear Iterative Clustering (SLIC) to get superpixels at
+a low slide magnification to detect cellular regions. The first step of
+this pipeline detects tissue regions (i.e. individual tissue pieces)
+using the get_tissue_mask method of the histomicstk.saliency module. Then,
+each tissue piece is processed separately for accuracy and disk space
+efficiency. It is important to keep in mind that this does NOT rely on a
+tile iterator, but loads the entire tissue region (but NOT the whole slide)
+in memory and passes it on to skimage.segmentation.slic method.</p>
+<p>Once superpixels are segmented, the image is deconvolved and features are
+extracted from the hematoxylin channel. Features include intensity and
+possibly also texture features. Then, a mixed component Gaussian mixture
+model is fit to the features, and median intensity is used to rank
+superpixel clusters by ‘cellularity’ (since we are working with the
+hematoxylin channel).</p>
+<p>Additional functionality includes contour extraction to get the final
+segmentation boundaries of cellular regions and to visualize them in DSA
+using one’s preferred colormap.</p>
+<dl class="method">
+<dt id="histomicstk.saliency.cellularity_detection_superpixels.Cellularity_detector_superpixels.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/histomicstk/saliency/cellularity_detection_superpixels.html#Cellularity_detector_superpixels.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#histomicstk.saliency.cellularity_detection_superpixels.Cellularity_detector_superpixels.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run cellularity detection and optionally visualize result.</p>
+<p>This runs the cellularity detection +/- visualization pipeline and
+returns a list of CD_single_tissue_piece objects. Each object has
+the following attributes</p>
+<dl class="simple">
+<dt>tissue_mask<span class="classifier">np array</span></dt><dd><p>mask of where tissue is at target magnification</p>
+</dd>
+<dt>ymin<span class="classifier">int</span></dt><dd><p>min y coordinate at base (scan) magnification</p>
+</dd>
+<dt>xmin<span class="classifier">int</span></dt><dd><p>min x coordinate at base (scan) magnification</p>
+</dd>
+<dt>ymax<span class="classifier">int</span></dt><dd><p>max y coordinate at base (scan) magnification</p>
+</dd>
+<dt>xmax<span class="classifier">int</span></dt><dd><p>max x coordinate at base (scan) magnification</p>
+</dd>
+<dt>spixel_mask<span class="classifier">np array</span></dt><dd><p>np array where each unique value represents one superpixel</p>
+</dd>
+<dt>fdata<span class="classifier">pandas DataFrame</span></dt><dd><p>features extracted for each superpixel. Index corresponds to
+values in the spixel_mask. This includes a ‘cluster’ column
+indicatign which cluster this superpixel belongs to.</p>
+</dd>
+<dt>cluster_props<span class="classifier">dict</span></dt><dd><p>properties of each superpixel cluster, including its assigned
+cellularity score.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="histomicstk.saliency.cellularity_detection_superpixels.Cellularity_detector_superpixels.set_color_normalization_values">
+<code class="sig-name descname">set_color_normalization_values</code><span class="sig-paren">(</span><em class="sig-param">mu=None</em>, <em class="sig-param">sigma=None</em>, <em class="sig-param">ref_image_path=None</em>, <em class="sig-param">what='main'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/histomicstk/saliency/cellularity_detection_superpixels.html#Cellularity_detector_superpixels.set_color_normalization_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#histomicstk.saliency.cellularity_detection_superpixels.Cellularity_detector_superpixels.set_color_normalization_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set color normalization values for thumbnail or main image.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="histomicstk.saliency.cellularity_detection_superpixels.Cellularity_detector_superpixels.set_slide_info_and_get_tissue_mask">
+<code class="sig-name descname">set_slide_info_and_get_tissue_mask</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/histomicstk/saliency/cellularity_detection_superpixels.html#Cellularity_detector_superpixels.set_slide_info_and_get_tissue_mask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#histomicstk.saliency.cellularity_detection_superpixels.Cellularity_detector_superpixels.set_slide_info_and_get_tissue_mask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set self.slide_info dict and self.labeled tissue mask.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="histomicstk.workflows.html" class="btn btn-neutral float-right" title="histomicstk.workflows" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="histomicstk.saliency.cellularity_detection_thresholding.html" class="btn btn-neutral float-left" title="Cellularity Detection using thresholding" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Kitware, Inc.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

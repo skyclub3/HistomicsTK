@@ -1,0 +1,1102 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Polygon merger &mdash; HistomicsTK 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Polygon merger v2" href="polygon_merger_v2.html" />
+    <link rel="prev" title="Masks to annotations workflow" href="masks_to_annotations_handler.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> HistomicsTK
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-docs.html">API Documentation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../examples.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="wsi-io-using-large-image.html">Reading Whole-slide Images using Large-image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="color-deconvolution.html">Color Deconvolution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="color-normalization-and-augmentation.html">Color normalization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="color-normalization-and-augmentation.html#&quot;Smart&quot;-color-augmentation">“Smart” color augmentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nuclei-segmentation.html">Nuclei Segmentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="positive-pixel-count.html">Positive Pixel Count</a></li>
+<li class="toctree-l2"><a class="reference internal" href="annotations_to_masks_handler.html">Annotations to masks workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="masks_to_annotations_handler.html">Masks to annotations workflow</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Polygon merger</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#1.-Constants-&amp;-prep-work">1. Constants &amp; prep work</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#2.-Polygon-merger">2. Polygon merger</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#This-is-the-class-object-you-will-be-using">This is the class object you will be using</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Required-arguments-for-init">Required arguments for init</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#3.-Let's-init-and-run-the-merger">3. Let’s init and run the merger</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#This-is-the-result">This is the result</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#4.-(Optional)---Visualize-results-on-HistomicsTK">4. (Optional) - Visualize results on HistomicsTK</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#5.-(EXTRA)---Explore-some-of-the-inner-workings">5. (EXTRA) - Explore some of the inner workings</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Core-method-being-called-to-merge-polygons">Core method being called to merge polygons</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="polygon_merger_v2.html">Polygon merger v2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tissue_detection.html">Tissue Detection module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cellularity_detection_thresholding.html">Cellularity detection using thresholding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cellularity_detection_superpixels.html">Cellularity detection using superpixels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workflows.html">Workflows</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Credits</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">HistomicsTK</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../examples.html">Examples</a> &raquo;</li>
+        
+      <li>Polygon merger</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/examples/polygon_merger.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container,
+div.nbinput.container div.prompt,
+div.nbinput.container div.input_area,
+div.nbinput.container div[class*=highlight],
+div.nbinput.container div[class*=highlight] pre,
+div.nboutput.container,
+div.nboutput.container div.prompt,
+div.nboutput.container div.output_area,
+div.nboutput.container div[class*=highlight],
+div.nboutput.container div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    min-width: 5ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Polygon-merger">
+<h1>Polygon merger<a class="headerlink" href="#Polygon-merger" title="Permalink to this headline">¶</a></h1>
+<p><strong>Overview:</strong></p>
+<p>This includes functionality to merge polygons from adjacent tiles (regions of interest, ROI) that form a tiled array. This is particularly useful when working with algorithmic segmentation output, which typically produces segmentation masks that are much smaller in size (say, 512x512 pixels) relative to the tissue area. This means that at the edge of each tile the segmentation contour discontinues sharply. This is very problematic if you need to analyze histological structures that are very
+large, oftentimes thousands of pixels perimeter-wise.</p>
+<p>This extends on some of the workflows described in Amgad et al, 2019:</p>
+<p><strong>Mohamed Amgad, Habiba Elfandy, Hagar Hussein, …, Jonathan Beezley, Deepak R Chittajallu, David Manthey, David A Gutman, Lee A D Cooper, Structured crowdsourcing enables convolutional segmentation of histology images, Bioinformatics, 2019, btz083</strong></p>
+<p>This slide used as a test example:</p>
+<p><a class="reference external" href="http://candygram.neurology.emory.edu:8080/histomicstk#?image=5d5d6910bd4404c6b1f3d893&amp;bounds=41996%2C43277%2C49947%2C46942%2C0">TCGA-A2-A0YE-01Z-00-DX1</a></p>
+<p><strong>This is what the result looks like:</strong></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="k">def</span> <span class="nf">_show_img</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+
+<span class="n">IMGPATH</span> <span class="o">=</span> <span class="s1">&#39;../../histomicstk/annotations_and_masks/tests/test_files/img/&#39;</span>
+
+<span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">))</span>
+<span class="n">_show_img</span><span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">IMGPATH</span> <span class="o">+</span> <span class="s1">&#39;polygon_merger_unmerged.jpg&#39;</span><span class="p">,</span> <span class="s1">&#39;Original&#39;</span><span class="p">)</span>
+<span class="n">_show_img</span><span class="p">(</span><span class="n">ax2</span><span class="p">,</span> <span class="n">IMGPATH</span> <span class="o">+</span> <span class="s1">&#39;polygon_merger_merged.jpg&#39;</span><span class="p">,</span> <span class="s1">&#39;Merged&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_polygon_merger_2_0.png" src="../_images/examples_polygon_merger_2_0.png" />
+</div>
+</div>
+<p><strong>Implementation summary</strong></p>
+<p>The key requirement is that that the masks (ROIs) are rectangular and unrotated, everything else is taaken care of. This algorithm fuses polygon clusters in coordinate (not mask) space, which means is can merge almost-arbitrarily large structures without memory issues. The algorithm, in brief, works as follows:</p>
+<ul class="simple">
+<li><p>Extract contours from the given masks using functionality from the <code class="docutils literal notranslate"><span class="pre">masks_to_annotations_handler.py</span></code>, making sure to correctly account for contour offset so that all coordinates are relative to whole-slide image.</p></li>
+<li><p>Identify contours that tough edge of each ROI and which edges they touch.</p></li>
+<li><p>Identify shared edges between ROIs.</p></li>
+<li><p>For each shared edge, find contours that are within the vicinity of each other (using bounding box location). If they are, then convert to shapely polygon and check if they actually are within a threshold distance of each other. If so, consider them a “pair” for merger.</p></li>
+<li><p>Hierarchically cluster pairs of polygons such that all contiguous polygons (using 4-connectivity) are to be merged.</p></li>
+<li><p>Get the union of each polygon “clluster” elements. The polygons are first dilated a bit to make sure any small gaps are covered, then they are merged and eroded.</p></li>
+</ul>
+<p>This initial set of “vetting” steps ensures that the number of comparisons is <code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span> <span class="pre">n^2</span></code>. This is very important since algorithm complexity plays a key role as whole slide images may contain tens of thousands of objects.</p>
+<p><strong>Where to look?</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">|</span><span class="n">_</span> <span class="n">histomicstk</span><span class="o">/</span>
+<span class="o">|</span>   <span class="o">|</span><span class="n">_annotations_and_masks</span><span class="o">/</span>
+<span class="o">|</span>      <span class="o">|</span><span class="n">_polygon_merger</span><span class="o">.</span><span class="n">py</span>
+<span class="o">|</span>      <span class="o">|</span><span class="n">_tests</span><span class="o">/</span>
+<span class="o">|</span>         <span class="o">|</span><span class="n">_</span> <span class="n">polygon_merger_test</span><span class="o">.</span><span class="n">py</span>
+<span class="o">|</span>         <span class="o">|</span><span class="n">_</span> <span class="n">annotations_to_masks_handler_test</span><span class="o">.</span><span class="n">py</span>
+<span class="o">|</span>         <span class="o">|</span><span class="n">_test_files</span><span class="o">/</span>
+<span class="o">|</span>            <span class="o">|</span><span class="n">_polygon_merger_roi_masks</span><span class="o">/</span>
+<span class="o">|</span><span class="n">_</span> <span class="n">docs</span><span class="o">/</span>
+    <span class="o">|</span><span class="n">_examples</span><span class="o">/</span>
+       <span class="o">|</span><span class="n">_polygon_merger</span><span class="o">.</span><span class="n">ipynb</span>
+</pre></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">CWD</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">CWD</span><span class="p">,</span> <span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;histomicstk&#39;</span><span class="p">,</span> <span class="s1">&#39;annotations_and_masks&#39;</span><span class="p">))</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">girder_client</span>
+<span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">read_csv</span>
+
+<span class="kn">from</span> <span class="nn">polygon_merger</span> <span class="kn">import</span> <span class="n">Polygon_merger</span>
+<span class="kn">from</span> <span class="nn">masks_to_annotations_handler</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">get_annotation_documents_from_contours</span><span class="p">,</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="1.-Constants-&amp;-prep-work">
+<h2>1. Constants &amp; prep work<a class="headerlink" href="#1.-Constants-&-prep-work" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">APIURL</span> <span class="o">=</span> <span class="s1">&#39;http://candygram.neurology.emory.edu:8080/api/v1/&#39;</span>
+<span class="n">SAMPLE_SLIDE_ID</span> <span class="o">=</span> <span class="s1">&#39;5d586d76bd4404c6b1f286ae&#39;</span>
+
+<span class="n">gc</span> <span class="o">=</span> <span class="n">girder_client</span><span class="o">.</span><span class="n">GirderClient</span><span class="p">(</span><span class="n">apiUrl</span><span class="o">=</span><span class="n">APIURL</span><span class="p">)</span>
+<span class="c1"># gc.authenticate(interactive=True)</span>
+<span class="n">gc</span><span class="o">.</span><span class="n">authenticate</span><span class="p">(</span><span class="n">apiKey</span><span class="o">=</span><span class="s1">&#39;kri19nTIGOkWH01TbzRqfohaaDWb6kPecRqGmemb&#39;</span><span class="p">)</span>
+
+<span class="c1"># read GTCodes dataframe</span>
+<span class="n">PTESTS_PATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+    <span class="n">CWD</span><span class="p">,</span> <span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;histomicstk&#39;</span><span class="p">,</span> <span class="s1">&#39;annotations_and_masks&#39;</span><span class="p">,</span> <span class="s1">&#39;tests&#39;</span><span class="p">)</span>
+<span class="n">GTCODE_PATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PTESTS_PATH</span><span class="p">,</span> <span class="s1">&#39;test_files&#39;</span><span class="p">,</span> <span class="s1">&#39;sample_GTcodes.csv&#39;</span><span class="p">)</span>
+<span class="n">GTCodes_df</span> <span class="o">=</span> <span class="n">read_csv</span><span class="p">(</span><span class="n">GTCODE_PATH</span><span class="p">)</span>
+<span class="n">GTCodes_df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">GTCodes_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;group&#39;</span><span class="p">]</span>
+
+<span class="c1"># This is where masks for adjacent rois are saved</span>
+<span class="n">MASK_LOADPATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+    <span class="n">PTESTS_PATH</span><span class="p">,</span><span class="s1">&#39;test_files&#39;</span><span class="p">,</span> <span class="s1">&#39;polygon_merger_roi_masks&#39;</span><span class="p">)</span>
+<span class="n">maskpaths</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">MASK_LOADPATH</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">MASK_LOADPATH</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">j</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.png&#39;</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="2.-Polygon-merger">
+<h2>2. Polygon merger<a class="headerlink" href="#2.-Polygon-merger" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="This-is-the-class-object-you-will-be-using">
+<h3>This is the class object you will be using<a class="headerlink" href="#This-is-the-class-object-you-will-be-using" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">Polygon_merger</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Methods to merge polygons in tiled masks.
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">Polygon_merger</span><span class="o">.</span><span class="fm">__init__</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Init Polygon_merger object.
+
+        Arguments:
+        -----------
+        maskpaths : list
+            list of strings representing pathos to masks
+        GTCodes_df : pandas DataFrame
+            the ground truth codes and information dataframe.
+            This is a dataframe that is indexed by the annotation group name
+            and has the following columns.
+
+            group: str
+                group name of annotation, eg. mostly_tumor.
+            GT_code: int
+                desired ground truth code (in the mask). Pixels of this value
+                belong to corresponding group (class).
+            coords_x : str
+                vertix x coordinates comma-separated values
+            coords_y
+                vertix y coordinated comma-separated values
+            color: str
+                rgb format. eg. rgb(255,0,0).
+        merge_thresh : int
+            how close do the polygons need to be (in pixels) to be merged
+        contkwargs : dict
+            dictionary of kwargs to pass to get_contours_from_mask()
+        discard_nonenclosed_background : bool
+            If a background group contour is NOT fully enclosed, discard it.
+            This is a purely aesthetic method, makes sure that the background
+            contours (eg stroma) are discarded by default to avoid cluttering
+            the field when posted to DSA for viewing online. The only exception
+            is if they are enclosed within something else (eg tumor), in which
+            case they are kept since they represent holes. This is related to
+            https://github.com/DigitalSlideArchive/HistomicsTK/issues/675
+            WARNING - This is a bit slower since the contours will have to be
+            converted to shapely polygons. It is not noticeable for hundreds of
+            contours, but you will notice the speed difference if you are
+            parsing thousands of contours. Default, for this reason, is False.
+        background_group : str
+            name of bckgrd group in the GT_codes dataframe (eg mostly_stroma)
+        roi_group : str
+            name of roi group in the GT_Codes dataframe (eg roi)
+        verbose : int
+            0 - Do not print to screen
+            1 - Print only key messages
+            2 - Print everything to screen
+        monitorPrefix : str
+            text to prepend to printed statements
+
+
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">Polygon_merger</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Run full pipeline to get merged contours.
+
+        Returns:
+        - pandas DataFrame: has the same structure as output from
+        get_contours_from_mask().
+
+
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Required-arguments-for-init">
+<h3>Required arguments for init<a class="headerlink" href="#Required-arguments-for-init" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="Ground-truth-codes-file">
+<h4>Ground truth codes file<a class="headerlink" href="#Ground-truth-codes-file" title="Permalink to this headline">¶</a></h4>
+<p>This contains the ground truth codes and information dataframe. This is a dataframe that is indexed by the annotation group name and has the following columns:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">group</span></code>: group name of annotation (string), eg. “mostly_tumor”</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GT_code</span></code>: int, desired ground truth code (in the mask) Pixels of this value belong to corresponding group (class)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">color</span></code>: str, rgb format. eg. rgb(255,0,0).</p></li>
+</ul>
+<p>IMPORTANT NOTE:</p>
+<p>Zero pixels have special meaning and do NOT encode specific ground truth class. Instead, they simply mean ‘Outside ROI’ and should be IGNORED during model training or evaluation.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">GTCodes_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>group</th>
+      <th>overlay_order</th>
+      <th>GT_code</th>
+      <th>is_roi</th>
+      <th>is_background_class</th>
+      <th>color</th>
+      <th>comments</th>
+    </tr>
+    <tr>
+      <th>group</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>roi</th>
+      <td>roi</td>
+      <td>0</td>
+      <td>255</td>
+      <td>1</td>
+      <td>0</td>
+      <td>rgb(200,0,150)</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>evaluation_roi</th>
+      <td>evaluation_roi</td>
+      <td>0</td>
+      <td>254</td>
+      <td>1</td>
+      <td>0</td>
+      <td>rgb(255,0,0)</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>mostly_tumor</th>
+      <td>mostly_tumor</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>rgb(255,0,0)</td>
+      <td>core class</td>
+    </tr>
+    <tr>
+      <th>mostly_stroma</th>
+      <td>mostly_stroma</td>
+      <td>2</td>
+      <td>2</td>
+      <td>0</td>
+      <td>1</td>
+      <td>rgb(255,125,0)</td>
+      <td>core class</td>
+    </tr>
+    <tr>
+      <th>mostly_lymphocytic_infiltrate</th>
+      <td>mostly_lymphocytic_infiltrate</td>
+      <td>1</td>
+      <td>3</td>
+      <td>0</td>
+      <td>0</td>
+      <td>rgb(0,0,255)</td>
+      <td>core class</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</div>
+<div class="section" id="maskpaths">
+<h4>maskpaths<a class="headerlink" href="#maskpaths" title="Permalink to this headline">¶</a></h4>
+<p>These are absolute paths for the masks/tiles/ROIs to be used.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">j</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">maskpaths</span><span class="p">[:</span><span class="mi">5</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;TCGA-A2-A0YE-01Z-00-DX1.8A2E3094-5755-42BC-969D-7F0A2ECA0F39_left-44350_top-43750_mag-BASE.png&#39;,
+ &#39;TCGA-A2-A0YE-01Z-00-DX1.8A2E3094-5755-42BC-969D-7F0A2ECA0F39_left-44350_top-44262_mag-BASE.png&#39;,
+ &#39;TCGA-A2-A0YE-01Z-00-DX1.8A2E3094-5755-42BC-969D-7F0A2ECA0F39_left-44350_top-44774_mag-BASE.png&#39;,
+ &#39;TCGA-A2-A0YE-01Z-00-DX1.8A2E3094-5755-42BC-969D-7F0A2ECA0F39_left-44350_top-45286_mag-BASE.png&#39;,
+ &#39;TCGA-A2-A0YE-01Z-00-DX1.8A2E3094-5755-42BC-969D-7F0A2ECA0F39_left-44350_top-45798_mag-BASE.png&#39;]
+</pre></div></div>
+</div>
+<p>Note that the pattern <code class="docutils literal notranslate"><span class="pre">_left-123_</span></code> and <code class="docutils literal notranslate"><span class="pre">_top-123_</span></code> is assumed to encode the x and y offset of the mask at base magnification. If you prefer some other convention, you will need to manually provide the parameter <code class="docutils literal notranslate"><span class="pre">roi_offsets</span></code> to the method <code class="docutils literal notranslate"><span class="pre">Polygon_merger.set_roi_bboxes</span></code>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">Polygon_merger</span><span class="o">.</span><span class="n">set_roi_bboxes</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Get dictionary of roi bounding boxes.
+
+        Arguments:
+        - roi_offsets: dict (default, None): dict indexed by maskname,
+        each entry is a dict with keys top and left each is an integer.
+        If None, then the x and y offset is inferred from mask name.
+
+        Sets:
+        - self.roiinfos: dict: dict indexed by maskname, each entry is a
+        dict with keys top, left, bottom, right, all of which are integers.
+
+
+</pre></div></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="3.-Let's-init-and-run-the-merger">
+<h2>3. Let’s init and run the merger<a class="headerlink" href="#3.-Let's-init-and-run-the-merger" title="Permalink to this headline">¶</a></h2>
+<p>To keep things “pretty”, we discard background contours (in this case, stroma), that are now enclosed with anouther contour. See docs for <code class="docutils literal notranslate"><span class="pre">masks_to_annotations_handler.py</span></code> if this is confusing. It is purely aesthetic.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">pm</span> <span class="o">=</span> <span class="n">Polygon_merger</span><span class="p">(</span>
+    <span class="n">maskpaths</span><span class="o">=</span><span class="n">maskpaths</span><span class="p">,</span> <span class="n">GTCodes_df</span><span class="o">=</span><span class="n">GTCodes_df</span><span class="p">,</span>
+    <span class="n">discard_nonenclosed_background</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">monitorPrefix</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
+<span class="n">contours_df</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+test: Set contours from all masks
+
+test: Set ROI bounding boxes
+
+test: Set shard ROI edges
+
+test: Set merged contours
+
+test: Get concatenated contours
+test: _discard_nonenclosed_background_group: discarded 4 contours
+</pre></div></div>
+</div>
+<div class="section" id="This-is-the-result">
+<h3>This is the result<a class="headerlink" href="#This-is-the-result" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">contours_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>group</th>
+      <th>color</th>
+      <th>ymin</th>
+      <th>ymax</th>
+      <th>xmin</th>
+      <th>xmax</th>
+      <th>has_holes</th>
+      <th>touches_edge-top</th>
+      <th>touches_edge-left</th>
+      <th>touches_edge-bottom</th>
+      <th>touches_edge-right</th>
+      <th>coords_x</th>
+      <th>coords_y</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>mostly_tumor</td>
+      <td>rgb(255,0,0)</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>44350,44350,44384,44384,44385,44385,44386,4438...</td>
+      <td>44445,44446,44446,44445,44445,44445,44445,4444...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>mostly_tumor</td>
+      <td>rgb(255,0,0)</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>44350,44350,44350,44350,44350,44350,44350,4435...</td>
+      <td>44615,44615,44615,44771,44771,44772,44772,4477...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>mostly_tumor</td>
+      <td>rgb(255,0,0)</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>44350,44350,44350,44350,44350,44350,44350,4435...</td>
+      <td>45129,45129,45283,45283,45284,45284,45285,4528...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>mostly_tumor</td>
+      <td>rgb(255,0,0)</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>45822,45822,45822,45823,45823,45823,45823,4582...</td>
+      <td>43915,43916,43916,43916,43917,43917,43917,4391...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>mostly_tumor</td>
+      <td>rgb(255,0,0)</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>46312,46312,46315,46316,46316,46316,46317,4631...</td>
+      <td>44252,44253,44256,44256,44257,44257,44257,4425...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</div>
+</div>
+<div class="section" id="4.-(Optional)---Visualize-results-on-HistomicsTK">
+<h2>4. (Optional) - Visualize results on HistomicsTK<a class="headerlink" href="#4.-(Optional)---Visualize-results-on-HistomicsTK" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># deleting existing annotations in target slide (if any)</span>
+<span class="n">existing_annotations</span> <span class="o">=</span> <span class="n">gc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/annotation/item/&#39;</span> <span class="o">+</span> <span class="n">SAMPLE_SLIDE_ID</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ann</span> <span class="ow">in</span> <span class="n">existing_annotations</span><span class="p">:</span>
+    <span class="n">gc</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s1">&#39;/annotation/</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">ann</span><span class="p">[</span><span class="s1">&#39;_id&#39;</span><span class="p">])</span>
+
+<span class="c1"># get list of annotation documents</span>
+<span class="n">annotation_docs</span> <span class="o">=</span> <span class="n">get_annotation_documents_from_contours</span><span class="p">(</span>
+    <span class="n">contours_df</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">separate_docs_by_group</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">docnamePrefix</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">monitorPrefix</span><span class="o">=</span><span class="n">SAMPLE_SLIDE_ID</span> <span class="o">+</span> <span class="s2">&quot;: annotation docs&quot;</span><span class="p">)</span>
+
+<span class="c1"># post annotations to slide -- make sure it posts without errors</span>
+<span class="k">for</span> <span class="n">annotation_doc</span> <span class="ow">in</span> <span class="n">annotation_docs</span><span class="p">:</span>
+    <span class="n">resp</span> <span class="o">=</span> <span class="n">gc</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+        <span class="s2">&quot;/annotation?itemId=&quot;</span> <span class="o">+</span> <span class="n">SAMPLE_SLIDE_ID</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">annotation_doc</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Now you can go to:</p>
+<p><a class="reference external" href="http://candygram.neurology.emory.edu:8080/histomicstk#?image=5d586d76bd4404c6b1f286ae&amp;bounds=41996%2C43277%2C49947%2C46942%2C0">TCGA-A2-A0YE-01Z-00-DX1</a></p>
+<p>and confirm that the posted annotations make sense and correspond to tissue boundaries and expected labels.</p>
+</div>
+<div class="section" id="5.-(EXTRA)---Explore-some-of-the-inner-workings">
+<h2>5. (EXTRA) - Explore some of the inner workings<a class="headerlink" href="#5.-(EXTRA)---Explore-some-of-the-inner-workings" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Core-method-being-called-to-merge-polygons">
+<h3>Core method being called to merge polygons<a class="headerlink" href="#Core-method-being-called-to-merge-polygons" title="Permalink to this headline">¶</a></h3>
+<p>This relies on <code class="docutils literal notranslate"><span class="pre">shapely</span></code>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">Polygon_merger</span><span class="o">.</span><span class="n">_get_merged_polygon</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Merge polygons using shapely (Internal).
+
+        Given a single cluster from _get_merge_clusters_from_df(), This creates
+        and merges polygons into a single cascaded union. It first dilates the
+        polygons by buffer_size pixels to make them overlap, merges them,
+        then erodes back by buffer_size to get the merged polygon.
+
+
+</pre></div></div>
+</div>
+<p>You may also want to checkout <code class="docutils literal notranslate"><span class="pre">Polygon_merger._add_merged_edge_contours</span></code> for details on how the various <code class="docutils literal notranslate"><span class="pre">shapely</span></code> geometries (polygon, multipolygon, eyc) are handled.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="polygon_merger_v2.html" class="btn btn-neutral float-right" title="Polygon merger v2" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="masks_to_annotations_handler.html" class="btn btn-neutral float-left" title="Masks to annotations workflow" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Kitware, Inc.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

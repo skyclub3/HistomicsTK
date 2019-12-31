@@ -1,0 +1,510 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Masks to annotations workflow &mdash; HistomicsTK 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="histomicstk.annotations_and_masks.annotation_and_mask_utils" href="histomicstk.annotations_and_masks.annotation_and_mask_utils.html" />
+    <link rel="prev" title="Annotations to masks workflow" href="histomicstk.annotations_and_masks.annotations_to_masks_handler.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> HistomicsTK
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="api-docs.html">API Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="histomicstk.html">histomicstk</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="histomicstk.utils.html">utils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="histomicstk.preprocessing.html">preprocessing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="histomicstk.filters.html">filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="histomicstk.segmentation.html">segmentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="histomicstk.features.html">features</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="histomicstk.annotations_and_masks.html">annotations and masks</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="histomicstk.annotations_and_masks.annotations_to_masks_handler.html">Annotations to masks</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Masks to annotations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="histomicstk.annotations_and_masks.annotation_and_mask_utils.html">Annotation and mask utilities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="histomicstk.annotations_and_masks.polygon_merger.html">Polygon merger (overview)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="histomicstk.annotations_and_masks.polygon_merger.html#polygon-merger-version-1-from-tiled-masks">Polygon merger (version 1 - from tiled masks)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="histomicstk.annotations_and_masks.polygon_merger.html#polygon-merger-version-2-general">Polygon merger (version 2- general)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="histomicstk.annotations_and_masks.tips_for_scalable_annotation_rendering_for_developers.html">Tips for scalable annotation rendering for developers</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="histomicstk.saliency.html">saliency (tissue/cellularity detection)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="histomicstk.workflows.html">workflows</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">HistomicsTK</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="api-docs.html">API Documentation</a> &raquo;</li>
+        
+          <li><a href="histomicstk.html">histomicstk</a> &raquo;</li>
+        
+          <li><a href="histomicstk.annotations_and_masks.html">histomicstk.annotations_and_masks</a> &raquo;</li>
+        
+      <li>Masks to annotations workflow</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/histomicstk.annotations_and_masks.masks_to_annotations_handler.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="masks-to-annotations-workflow">
+<h1>Masks to annotations workflow<a class="headerlink" href="#masks-to-annotations-workflow" title="Permalink to this headline">¶</a></h1>
+<p><strong>Overview:</strong></p>
+<p>This contains the reverse functionality to <code class="docutils literal notranslate"><span class="pre">annotations_to_masks.py</span></code>. Namely, this includes two key functionalities:</p>
+<ul class="simple">
+<li><p>Parsing annotatoins from a groung truth mask into contours (pandas dataframe)</p></li>
+<li><p>Parsing contours into a format that is compatible with large_image annotation schema and
+ready to push for visualization in Digital Slide Archive HistomicsTK.</p></li>
+</ul>
+<p>This extends on some of the workflows described in Amgad et al, 2019:</p>
+<p><em>Mohamed Amgad, Habiba Elfandy, Hagar Hussein, …, Jonathan Beezley, Deepak R Chittajallu, David Manthey, David A Gutman, Lee A D Cooper, Structured crowdsourcing enables convolutional segmentation of histology images, Bioinformatics, 2019, btz083</em></p>
+<p>This slide used as a test example:</p>
+<p><a class="reference external" href="http://candygram.neurology.emory.edu:8080/histomicstk#?image=5d586d76bd4404c6b1f286ae&amp;bounds=54743%2C32609%2C68828%2C39395%2C0">TCGA-A2-A0YE-01Z-00-DX1</a></p>
+<p><strong>Where to look?</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">|</span><span class="n">_</span> <span class="n">histomicstk</span><span class="o">/</span>
+<span class="o">|</span>   <span class="o">|</span><span class="n">_annotations_and_masks</span><span class="o">/</span>
+<span class="o">|</span>   <span class="o">|</span>   <span class="o">|</span><span class="n">_masks_to_annotations_handler</span><span class="o">.</span><span class="n">py</span>
+<span class="o">|</span>   <span class="o">|</span><span class="n">_tests</span><span class="o">/</span>
+<span class="o">|</span>       <span class="o">|</span><span class="n">_masks_to_annotations_handler_test</span><span class="o">.</span><span class="n">py</span>
+<span class="o">|</span>       <span class="o">|</span><span class="n">_test_files</span><span class="o">/</span>
+<span class="o">|</span>          <span class="o">|</span><span class="n">_sample_GTcodes</span><span class="o">.</span><span class="n">csv</span>
+<span class="o">|</span>          <span class="o">|</span><span class="n">_sample_contours_df</span><span class="o">.</span><span class="n">tsv</span>
+<span class="o">|</span>          <span class="o">|</span><span class="n">_TCGA</span><span class="o">-</span><span class="n">A2</span><span class="o">-</span><span class="n">A0YE</span><span class="o">-</span><span class="mi">01</span><span class="n">Z</span><span class="o">-</span><span class="mi">00</span><span class="o">-</span><span class="n">DX1</span><span class="o">.</span><span class="mi">8</span><span class="n">A2E3094</span><span class="o">-</span><span class="mi">5755</span><span class="o">-</span><span class="mi">42</span><span class="n">BC</span><span class="o">-</span><span class="mi">969</span><span class="n">D</span><span class="o">-</span><span class="mi">7</span><span class="n">F0A2ECA0F39_left</span><span class="o">-</span><span class="mi">59206</span><span class="n">_top</span><span class="o">-</span><span class="mi">33505</span><span class="n">_mag</span><span class="o">-</span><span class="n">BASE</span><span class="o">.</span><span class="n">png</span>
+<span class="o">|</span><span class="n">_</span> <span class="n">docs</span><span class="o">/</span>
+    <span class="o">|</span><span class="n">_examples</span><span class="o">/</span>
+       <span class="o">|</span><span class="n">_</span> <span class="n">masks_to_annotations_handler</span><span class="o">.</span><span class="n">ipynb</span>
+</pre></div>
+</div>
+<span class="target" id="module-histomicstk.annotations_and_masks.masks_to_annotations_handler"></span><p>Created on Mon Aug 12 18:33:48 2019.</p>
+<p>&#64;author: tageldim</p>
+<dl class="function">
+<dt id="histomicstk.annotations_and_masks.masks_to_annotations_handler.get_annotation_documents_from_contours">
+<code class="sig-prename descclassname">histomicstk.annotations_and_masks.masks_to_annotations_handler.</code><code class="sig-name descname">get_annotation_documents_from_contours</code><span class="sig-paren">(</span><em class="sig-param">contours_df</em>, <em class="sig-param">separate_docs_by_group=True</em>, <em class="sig-param">annots_per_doc=200</em>, <em class="sig-param">annprops=None</em>, <em class="sig-param">docnamePrefix=''</em>, <em class="sig-param">verbose=True</em>, <em class="sig-param">monitorPrefix=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/histomicstk/annotations_and_masks/masks_to_annotations_handler.html#get_annotation_documents_from_contours"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#histomicstk.annotations_and_masks.masks_to_annotations_handler.get_annotation_documents_from_contours" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given dataframe of contours, get list of annotation documents.</p>
+<p>This method parses a dataframe of contours to a list of dictionaries, each
+of which represents and large_image style annotation. This is a wrapper
+that extends the functionality of the method
+get_single_annotation_document_from_contours(), whose docstring should
+be referenced for implementation details and further explanation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>contours_df</strong> (<em>pandas DataFrame</em>) – <p>WARNING - This is modified inside the function, so pass a copy.
+This dataframe includes data on contours extracted from input mask
+using get_contours_from_mask(). If you have contours using some other
+method, just make sure the dataframe follows the same schema as the
+output from get_contours_from_mask(). You may find a sample dataframe
+in thie repo at ./plugin_tests/test_files/sample_contours_df.tsv
+The following columns are relevant for this method.</p>
+<dl class="simple">
+<dt>group<span class="classifier">str</span></dt><dd><p>annotation group (ground truth label).</p>
+</dd>
+<dt>color<span class="classifier">str</span></dt><dd><p>annotation color if it were to be posted to DSA.</p>
+</dd>
+<dt>coords_x<span class="classifier">str</span></dt><dd><p>vertix x coordinates comma-separated values</p>
+</dd>
+<dt>coords_y</dt><dd><p>vertix y coordinated comma-separated values</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>separate_docs_by_group</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if set to True, you get one or more annotation documents (dicts)
+for each group (eg tumor) independently.</p></li>
+<li><p><strong>annots_per_doc</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – maximum number of annotation elements (polygons) per dict. The smaller
+this number, the more numerous the annotation documents, but the more
+seamless it is to post this data to the DSA server or to view using the
+HistomicsTK interface since you will be loading smaller chunks of data
+at a time.</p></li>
+<li><p><strong>annprops</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – properties of annotation elements. Contains the following keys
+F, X_OFFSET, Y_OFFSET, opacity, lineWidth. Refer to
+get_single_annotation_document_from_contours() for details.</p></li>
+<li><p><strong>docnamePrefix</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – test to prepend to annotation document name</p></li>
+<li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – Print progress to screen?</p></li>
+<li><p><strong>monitorPrefix</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – text to prepend to printed statements</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>DSA-style annotation document.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list of dicts</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="histomicstk.annotations_and_masks.masks_to_annotations_handler.get_contours_from_bin_mask">
+<code class="sig-prename descclassname">histomicstk.annotations_and_masks.masks_to_annotations_handler.</code><code class="sig-name descname">get_contours_from_bin_mask</code><span class="sig-paren">(</span><em class="sig-param">bin_mask</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/histomicstk/annotations_and_masks/masks_to_annotations_handler.html#get_contours_from_bin_mask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#histomicstk.annotations_and_masks.masks_to_annotations_handler.get_contours_from_bin_mask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a binary mask, get opencv contours.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>bin_mask</strong> (<em>nd array</em>) – ground truth mask (m,n) - int32 with [0, 1] values.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a dictionary with the following keys:
+- contour group: the actual contour x,y coordinates.
+- heirarchy: contour hierarchy. This contains information about
+how contours relate to each other, in the form:
+[Next, Previous, First_Child, Parent,
+index_relative_to_contour_group]
+The last column is added for convenience and is not part of the
+original opencv output.
+- outer_contours: index of contours that do not have a parent, and
+are therefore the outermost most contours. These may have
+children (holes), however.
+See docs.opencv.org/3.1.0/d9/d8b/tutorial_py_contours_hierarchy.html
+for more information.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="histomicstk.annotations_and_masks.masks_to_annotations_handler.get_contours_from_mask">
+<code class="sig-prename descclassname">histomicstk.annotations_and_masks.masks_to_annotations_handler.</code><code class="sig-name descname">get_contours_from_mask</code><span class="sig-paren">(</span><em class="sig-param">MASK</em>, <em class="sig-param">GTCodes_df</em>, <em class="sig-param">groups_to_get=None</em>, <em class="sig-param">MIN_SIZE=30</em>, <em class="sig-param">MAX_SIZE=None</em>, <em class="sig-param">get_roi_contour=True</em>, <em class="sig-param">roi_group='roi'</em>, <em class="sig-param">discard_nonenclosed_background=False</em>, <em class="sig-param">background_group='mostly_stroma'</em>, <em class="sig-param">verbose=False</em>, <em class="sig-param">monitorPrefix=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/histomicstk/annotations_and_masks/masks_to_annotations_handler.html#get_contours_from_mask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#histomicstk.annotations_and_masks.masks_to_annotations_handler.get_contours_from_mask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse ground truth mask and gets countours for annotations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>MASK</strong> (<em>nd array</em>) – ground truth mask (m,n) where pixel values encode group membership.</p></li>
+<li><p><strong>GTCodes_df</strong> (<em>pandas Dataframe</em>) – <p>the ground truth codes and information dataframe.
+This is a dataframe that is indexed by the annotation group name and
+has the following columns.</p>
+<dl class="simple">
+<dt>group: str</dt><dd><p>group name of annotation, eg. mostly_tumor.</p>
+</dd>
+<dt>GT_code: int</dt><dd><p>desired ground truth code (in the mask). Pixels of this value
+belong to corresponding group (class).</p>
+</dd>
+<dt>color: str</dt><dd><p>rgb format. eg. rgb(255,0,0).</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>groups_to_get</strong> (<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a>) – if None (default) then all groups (ground truth labels) will be
+extracted. Otherwise pass a list fo strings like [‘mostly_tumor’,].</p></li>
+<li><p><strong>MIN_SIZE</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – minimum bounding box size of contour</p></li>
+<li><p><strong>MAX_SIZE</strong> (<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a>) – if not None, int. Maximum bounding box size of contour. Sometimes
+very large contours cause segmentation faults that originate from
+opencv and are not caught by python, causing the python process
+to unexpectedly hault. If you would like to set a maximum size to
+defend against this, a suggested maximum would be 15000.</p></li>
+<li><p><strong>get_roi_contour</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – whether to get contour for boundary of region of interest (ROI). This
+is most relevant when dealing with multiple ROIs per slide and with
+rotated rectangular or polygonal ROIs.</p></li>
+<li><p><strong>roi_group</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – name of roi group in the GT_Codes dataframe (eg roi)</p></li>
+<li><p><strong>discard_nonenclosed_background</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – If a background group contour is NOT fully enclosed, discard it.
+This is a purely aesthetic method, makes sure that the background group
+contours (eg stroma) are discarded by default to avoid cluttering the
+field when posted to DSA for viewing online. The only exception is
+if they are enclosed within something else (eg tumor), in which case
+they are kept since they represent holes. This is related to
+<a class="reference external" href="https://github.com/DigitalSlideArchive/HistomicsTK/issues/675">https://github.com/DigitalSlideArchive/HistomicsTK/issues/675</a>
+WARNING - This is a bit slower since the contours will have to be
+converted to shapely polygons. It is not noticeable for hundreds of
+contours, but you will notice the speed difference if you are parsing
+thousands of contours. Default, for this reason, is False.</p></li>
+<li><p><strong>background_group</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – name of background group in the GT_codes dataframe (eg mostly_stroma)</p></li>
+<li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – Print progress to screen?</p></li>
+<li><p><strong>monitorPrefix</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – text to prepend to printed statements</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p>contours extracted from input mask. The following columns are output.</p>
+<dl class="simple">
+<dt>group<span class="classifier">str</span></dt><dd><p>annotation group (ground truth label).</p>
+</dd>
+<dt>color<span class="classifier">str</span></dt><dd><p>annotation color if it were to be posted to DSA.</p>
+</dd>
+<dt>is_roi<span class="classifier">bool</span></dt><dd><p>whether this annotation is a region of interest boundary</p>
+</dd>
+<dt>ymin<span class="classifier">int</span></dt><dd><p>minimun y coordinate</p>
+</dd>
+<dt>ymax<span class="classifier">int</span></dt><dd><p>maximum y coordinate</p>
+</dd>
+<dt>xmin<span class="classifier">int</span></dt><dd><p>minimum x coordinate</p>
+</dd>
+<dt>xmax<span class="classifier">int</span></dt><dd><p>maximum x coordinate</p>
+</dd>
+<dt>has_holes<span class="classifier">bool</span></dt><dd><p>whether this contour has holes</p>
+</dd>
+<dt>touches_edge-top<span class="classifier">bool</span></dt><dd><p>whether this contour touches top mask edge</p>
+</dd>
+<dt>touches_edge-bottom<span class="classifier">bool</span></dt><dd><p>whether this contour touches bottom mask edge</p>
+</dd>
+<dt>touches_edge-left<span class="classifier">bool</span></dt><dd><p>whether this contour touches left mask edge</p>
+</dd>
+<dt>touches_edge-right<span class="classifier">bool</span></dt><dd><p>whether this contour touches right mask edge</p>
+</dd>
+<dt>coords_x<span class="classifier">str</span></dt><dd><p>vertix x coordinates comma-separated values</p>
+</dd>
+<dt>coords_y</dt><dd><p>vertix y coordinated comma-separated values</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="histomicstk.annotations_and_masks.masks_to_annotations_handler.get_single_annotation_document_from_contours">
+<code class="sig-prename descclassname">histomicstk.annotations_and_masks.masks_to_annotations_handler.</code><code class="sig-name descname">get_single_annotation_document_from_contours</code><span class="sig-paren">(</span><em class="sig-param">contours_df_slice</em>, <em class="sig-param">docname='default'</em>, <em class="sig-param">F=1.0</em>, <em class="sig-param">X_OFFSET=0</em>, <em class="sig-param">Y_OFFSET=0</em>, <em class="sig-param">opacity=0.3</em>, <em class="sig-param">lineWidth=4.0</em>, <em class="sig-param">verbose=True</em>, <em class="sig-param">monitorPrefix=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/histomicstk/annotations_and_masks/masks_to_annotations_handler.html#get_single_annotation_document_from_contours"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#histomicstk.annotations_and_masks.masks_to_annotations_handler.get_single_annotation_document_from_contours" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given dataframe of contours, get annotation document.</p>
+<p>This uses the large_image annotation schema to create an annotation
+document that maybe posted to DSA for viewing using something like:
+resp = gc.post(“/annotation?itemId=” + slide_id, json=annotation_doc)
+The annotation schema can be found at:
+github.com/girder/large_image/blob/master/docs/annotations.md .</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>contours_df_slice</strong> (<em>pandas DataFrame</em>) – <p>The following columns are of relevance and must be contained.</p>
+<dl class="simple">
+<dt>group<span class="classifier">str</span></dt><dd><p>annotation group (ground truth label).</p>
+</dd>
+<dt>color<span class="classifier">str</span></dt><dd><p>annotation color if it were to be posted to DSA.</p>
+</dd>
+<dt>coords_x<span class="classifier">str</span></dt><dd><p>vertix x coordinates comma-separated values</p>
+</dd>
+<dt>coords_y</dt><dd><p>vertix y coordinated comma-separated values</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>docname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – annotation document name</p></li>
+<li><p><strong>F</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – how much smaller is the mask where the contours come from is relative
+to the slide scan magnification. For example, if the mask is at 10x
+whereas the slide scan magnification is 20x, then F would be 2.0.</p></li>
+<li><p><strong>X_OFFSET</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – x offset to add to contours at BASE (SCAN) magnification</p></li>
+<li><p><strong>Y_OFFSET</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – y offset to add to contours at BASE (SCAN) magnification</p></li>
+<li><p><strong>opacity</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – opacity of annotation elements (in the range [0, 1])</p></li>
+<li><p><strong>lineWidth</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – width of boarders of annotation elements</p></li>
+<li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – Print progress to screen?</p></li>
+<li><p><strong>monitorPrefix</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – text to prepend to printed statements</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>DSA-style annotation document ready to be post for viewing.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="histomicstk.annotations_and_masks.annotation_and_mask_utils.html" class="btn btn-neutral float-right" title="histomicstk.annotations_and_masks.annotation_and_mask_utils" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="histomicstk.annotations_and_masks.annotations_to_masks_handler.html" class="btn btn-neutral float-left" title="Annotations to masks workflow" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Kitware, Inc.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
